@@ -45,7 +45,7 @@ public class LexerTest {
         final Lexer lexer = new Lexer("<test a=param>");
         assertThat(lexer.analysis().get(0), IsInstanceOf.instanceOf(TagStartResult.class));
         assertThat(((TagStartResult) lexer.analysis().get(0)).getName(), Is.is("test"));
-        assertThat(((TagStartResult) lexer.analysis().get(0)).getParam("a"), Is.is("param"));
+        assertThat(((TagStartResult) lexer.analysis().get(0)).getParam().get("a"), Is.is("param"));
     }
 
     @Test

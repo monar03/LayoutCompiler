@@ -1,7 +1,5 @@
 package lexer.result;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +33,7 @@ public class TagStartResult extends Result {
         return name;
     }
 
-    public String getParam(@NotNull String key) {
-        return params.get(key);
+    public Map<String, String> getParam() {
+        return new HashMap<>(params);
     }
 }

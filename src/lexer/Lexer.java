@@ -16,7 +16,7 @@ public class Lexer {
         stringStream = new StringStream(s);
     }
 
-    List<Result> analysis() {
+    public List<Result> analysis() {
         while (!stringStream.isEnd()) {
             final char c = stringStream.getChar();
             switch (c) {
