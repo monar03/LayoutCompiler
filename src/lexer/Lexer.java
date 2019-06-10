@@ -20,6 +20,10 @@ public class Lexer {
         while (!stringStream.isEnd()) {
             final char c = stringStream.getChar();
             switch (c) {
+                case ' ': {
+                    stringStream.next();
+                    break;
+                }
                 case '<': {
                     stringStream.next();
                     tag();
@@ -39,12 +43,16 @@ public class Lexer {
         while (!stringStream.isEnd()) {
             final char c = stringStream.getChar();
             switch (c) {
+                case ' ':
+                    stringStream.next();
+                    break;
                 case '<':
                     results.add(new StringResult(stringBuilder.toString()));
                     return;
                 default:
                     stringStream.next();
                     stringBuilder.append(c);
+                    break;
             }
         }
 
@@ -84,6 +92,18 @@ public class Lexer {
         while (!stringStream.isEnd()) {
             final char tc = stringStream.getChar();
             switch (tc) {
+                case '/': {
+                    stringStream.next();
+                    if (stringStream.getChar() == '>') {
+                        stringStream.next();
+                        final TagStartResult tagStartResult = new TagStartResult(stringBuilder.toString());
+                        results.add(tagStartResult);
+                        results.add(new TagEndResult(tagStartResult.getName()));
+                        return;
+                    } else {
+                        stringBuilder.append(tc);
+                    }
+                }
                 case '>': {
                     stringStream.next();
                     results.add(new TagStartResult(stringBuilder.toString()));
