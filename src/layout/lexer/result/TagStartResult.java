@@ -1,4 +1,4 @@
-package lexer.result;
+package layout.lexer.result;
 
 import java.util.HashMap;
 import java.util.Map;

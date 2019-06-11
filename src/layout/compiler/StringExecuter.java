@@ -1,6 +1,4 @@
-package compiler;
-
-import com.sun.istack.internal.NotNull;
+package layout.compiler;
 
 public class StringExecuter extends Executer {
     protected String str;

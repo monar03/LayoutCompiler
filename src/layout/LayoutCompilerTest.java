@@ -1,6 +1,8 @@
-import compiler.BlockTag;
-import compiler.Executer;
-import compiler.StringExecuter;
+package layout;
+
+import layout.compiler.BlockTag;
+import layout.compiler.Executer;
+import layout.compiler.StringExecuter;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 

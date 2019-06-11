@@ -1,9 +1,9 @@
-package lexer;
+package layout.lexer;
 
-import lexer.result.Result;
-import lexer.result.StringResult;
-import lexer.result.TagEndResult;
-import lexer.result.TagStartResult;
+import layout.lexer.result.Result;
+import layout.lexer.result.StringResult;
+import layout.lexer.result.TagEndResult;
+import layout.lexer.result.TagStartResult;
 
 import java.util.ArrayList;
 import java.util.List;

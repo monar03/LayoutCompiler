@@ -1,12 +1,14 @@
+package layout;
+
 import com.sun.istack.internal.NotNull;
-import compiler.BlockTag;
-import compiler.Executer;
-import compiler.StringExecuter;
-import lexer.Lexer;
-import lexer.result.Result;
-import lexer.result.StringResult;
-import lexer.result.TagEndResult;
-import lexer.result.TagStartResult;
+import layout.compiler.BlockTag;
+import layout.compiler.Executer;
+import layout.compiler.StringExecuter;
+import layout.lexer.Lexer;
+import layout.lexer.result.Result;
+import layout.lexer.result.StringResult;
+import layout.lexer.result.TagEndResult;
+import layout.lexer.result.TagStartResult;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -20,7 +22,7 @@ public class LayoutCompiler {
     public void addTag(@NotNull String key, Class aClass) {
         classMap.put(key, aClass);
     }
-    
+
     @NotNull
     public Executer compile(@NotNull String str) {
         final Lexer lexer = new Lexer(str);

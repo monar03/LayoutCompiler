@@ -1,6 +1,4 @@
-package lexer.result;
-
-import lexer.Type;
+package layout.lexer.result;
 
 public class TagEndResult extends Result {
     public final String name;
