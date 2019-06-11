@@ -1,8 +1,10 @@
 import com.sun.istack.internal.NotNull;
 import compiler.BlockTag;
 import compiler.Executer;
+import compiler.StringExecuter;
 import lexer.Lexer;
 import lexer.result.Result;
+import lexer.result.StringResult;
 import lexer.result.TagEndResult;
 import lexer.result.TagStartResult;
 
@@ -18,7 +20,7 @@ public class LayoutCompiler {
     public void addTag(@NotNull String key, Class aClass) {
         classMap.put(key, aClass);
     }
-
+    
     @NotNull
     public Executer compile(@NotNull String str) {
         final Lexer lexer = new Lexer(str);
@@ -27,35 +29,43 @@ public class LayoutCompiler {
         return compile();
     }
 
+    @NotNull
     private Executer compile() {
-        final Result result = results.poll();
-        if (result instanceof TagStartResult) {
-            return getTagStartResult((TagStartResult) result);
-        }
-
-        return new Executer() {
+        return compile(new BlockTag() {
             @Override
             public void execute() {
-
+                for (Executer executer : getExecuters()) {
+                    executer.execute();
+                }
             }
-        };
+        });
     }
 
-    private Executer compile(BlockTag blockTag) {
-        final Result result = results.poll();
-        if (result instanceof TagEndResult) {
-            if (blockTag.getClass() == classMap.get(((TagEndResult) result).name)) {
-                return blockTag;
+    @NotNull
+    private Executer compile(@NotNull BlockTag blockTag) {
+        while (true) {
+            final Result result = results.poll();
+            if (result == null) {
+                break;
             }
-        } else if (result instanceof TagStartResult) {
-            blockTag.addExecuter(getTagStartResult((TagStartResult) result));
-            return blockTag;
+
+            if (result instanceof TagEndResult) {
+                if (blockTag.getClass() == classMap.get(((TagEndResult) result).name)) {
+                    break;
+                }
+            } else if (result instanceof TagStartResult) {
+                blockTag.addExecuter(getTagStartResult((TagStartResult) result));
+            } else if (result instanceof StringResult) {
+                // @FIXME テキストの処理をどうするか考える
+                blockTag.addExecuter(new StringExecuter(((StringResult) result).getText()));
+            }
         }
 
         return blockTag;
     }
 
-    private Executer getTagStartResult(TagStartResult result) {
+    @NotNull
+    private Executer getTagStartResult(@NotNull TagStartResult result) {
         final Object object;
         try {
             object = classMap.get(result.getName()).newInstance();
