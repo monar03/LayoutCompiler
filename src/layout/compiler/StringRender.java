@@ -1,5 +1,6 @@
 package layout.compiler;
 
+// @XXX 文字列の取り扱いどうしようかな。。
 public class StringRender extends Render {
     protected String str;
 
