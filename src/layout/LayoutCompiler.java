@@ -2,8 +2,8 @@ package layout;
 
 import com.sun.istack.internal.NotNull;
 import layout.compiler.BlockTag;
-import layout.compiler.Executer;
-import layout.compiler.StringExecuter;
+import layout.compiler.Render;
+import layout.compiler.StringRender;
 import layout.lexer.Lexer;
 import layout.lexer.result.Result;
 import layout.lexer.result.StringResult;
@@ -24,7 +24,7 @@ public class LayoutCompiler {
     }
 
     @NotNull
-    public Executer compile(@NotNull String str) {
+    public Render compile(@NotNull String str) {
         final Lexer lexer = new Lexer(str);
         results.addAll(lexer.analysis());
 
@@ -32,19 +32,19 @@ public class LayoutCompiler {
     }
 
     @NotNull
-    private Executer compile() {
+    private Render compile() {
         return compile(new BlockTag() {
             @Override
-            public void execute() {
-                for (Executer executer : getExecuters()) {
-                    executer.execute();
+            public void render(Render render) {
+                for (Render executer : getRenders()) {
+                    executer.render(this);
                 }
             }
         });
     }
 
     @NotNull
-    private Executer compile(@NotNull BlockTag blockTag) {
+    private Render compile(@NotNull BlockTag blockTag) {
         while (true) {
             final Result result = results.poll();
             if (result == null) {
@@ -56,10 +56,10 @@ public class LayoutCompiler {
                     break;
                 }
             } else if (result instanceof TagStartResult) {
-                blockTag.addExecuter(getTagStartResult((TagStartResult) result));
+                blockTag.addRender(getTagStartResult((TagStartResult) result));
             } else if (result instanceof StringResult) {
                 // @FIXME テキストの処理をどうするか考える
-                blockTag.addExecuter(new StringExecuter(((StringResult) result).getText()));
+                blockTag.addRender(new StringRender(((StringResult) result).getText()));
             }
         }
 
@@ -67,7 +67,7 @@ public class LayoutCompiler {
     }
 
     @NotNull
-    private Executer getTagStartResult(@NotNull TagStartResult result) {
+    private Render getTagStartResult(@NotNull TagStartResult result) {
         final Object object;
         try {
             object = classMap.get(result.getName()).newInstance();
@@ -75,7 +75,7 @@ public class LayoutCompiler {
             throw new IllegalStateException("cannot excuter");
         }
 
-        if (!(object instanceof Executer)) {
+        if (!(object instanceof Render)) {
             throw new IllegalStateException("cannot executer");
         }
 

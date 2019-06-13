@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-abstract public class BlockTag extends Executer {
+abstract public class BlockTag extends Render {
     protected final Map<java.lang.String, java.lang.String> params = new HashMap<>();
-    private final List<Executer> executers = new ArrayList<>();
+    private final List<Render> executers = new ArrayList<>();
 
-    public void addExecuter(Executer executer) {
-        executers.add(executer);
+    public void addRender(Render render) {
+        executers.add(render);
     }
 
-    public List<Executer> getExecuters() {
+    public List<Render> getRenders() {
         return new ArrayList<>(executers);
     }
 
