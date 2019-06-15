@@ -1,8 +1,8 @@
-package layout;
+package layout.render;
 
-import layout.compiler.BlockTag;
-import layout.compiler.Render;
-import layout.compiler.StringRender;
+import layout.render.compiler.BlockTag;
+import layout.render.compiler.Render;
+import layout.render.compiler.StringRender;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 

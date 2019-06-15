@@ -1,14 +1,14 @@
-package layout;
+package layout.render;
 
 import com.sun.istack.internal.NotNull;
-import layout.compiler.BlockTag;
-import layout.compiler.Render;
-import layout.compiler.StringRender;
-import layout.lexer.Lexer;
-import layout.lexer.result.Result;
-import layout.lexer.result.StringResult;
-import layout.lexer.result.TagEndResult;
-import layout.lexer.result.TagStartResult;
+import layout.render.compiler.BlockTag;
+import layout.render.compiler.Render;
+import layout.render.compiler.StringRender;
+import layout.render.lexer.Lexer;
+import layout.render.lexer.result.Result;
+import layout.render.lexer.result.StringResult;
+import layout.render.lexer.result.TagEndResult;
+import layout.render.lexer.result.TagStartResult;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;

@@ -1,8 +1,8 @@
-package layout.lexer;
+package layout.render.lexer;
 
-import layout.lexer.result.StringResult;
-import layout.lexer.result.TagEndResult;
-import layout.lexer.result.TagStartResult;
+import layout.render.lexer.result.StringResult;
+import layout.render.lexer.result.TagEndResult;
+import layout.render.lexer.result.TagStartResult;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;

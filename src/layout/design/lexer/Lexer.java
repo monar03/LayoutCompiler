@@ -1,6 +1,6 @@
-package layout.design;
+package layout.design.lexer;
 
-import layout.lexer.StringStream;
+import layout.render.lexer.StringStream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class Lexer {
                 case '{':
                     stringStream.next();
                     results.add(new ClassResult(stringBuilder.toString()));
-                    analysisDesignParam();
+                    analysisDesignParams();
                     return;
                 case '}':
                 case '.': {
@@ -62,7 +62,7 @@ public class Lexer {
         }
     }
 
-    private void analysisDesignParam() {
+    private void analysisDesignParams() {
         results.add(new DesignStartResult());
         while (!stringStream.isEnd()) {
             final char c = stringStream.getChar();
@@ -77,7 +77,59 @@ public class Lexer {
                     stringStream.next();
                     break;
                 }
+                case '{': {
+                    throw new IllegalStateException("cannot parse. design param");
+                }
+                default: {
+                    analysisParam();
+                }
             }
         }
+    }
+
+    private void analysisParam() {
+        final StringBuilder key = new StringBuilder();
+        KEY:
+        while (!stringStream.isEnd()) {
+            final char c = stringStream.getChar();
+            switch (c) {
+                case ':': {
+                    stringStream.next();
+                    break KEY;
+                }
+                case '\n':
+                case ';':
+                case ' ': {
+                    throw new IllegalStateException("cannot input space");
+                }
+                default: {
+                    key.append(c);
+                    stringStream.next();
+                }
+            }
+        }
+
+        final StringBuilder value = new StringBuilder();
+        VALUE:
+        while (!stringStream.isEnd()) {
+            final char c = stringStream.getChar();
+            switch (c) {
+                case ':':
+                case '\n':
+                case ' ': {
+                    throw new IllegalStateException("cannot input space");
+                }
+                case ';': {
+                    stringStream.next();
+                    break VALUE;
+                }
+                default: {
+                    value.append(c);
+                    stringStream.next();
+                }
+            }
+        }
+
+        results.add(new DesignParamResult(key.toString(), value.toString()));
     }
 }

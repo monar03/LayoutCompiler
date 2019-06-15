@@ -1,4 +1,4 @@
-package layout.lexer;
+package layout.render.lexer;
 
 public class StringStream {
     private int position = 0;

@@ -1,4 +1,4 @@
-package layout.lexer;
+package layout.render.lexer;
 
 import org.hamcrest.core.Is;
 import org.junit.Test;

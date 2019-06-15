@@ -1,4 +1,4 @@
-package layout.lexer.result;
+package layout.render.lexer.result;
 
 public class StringResult extends Result {
     private final String text;

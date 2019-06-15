@@ -1,4 +1,4 @@
-package layout.compiler;
+package layout.render.compiler;
 
 // @XXX 文字列の取り扱いどうしようかな。。
 public class StringRender extends Render {
