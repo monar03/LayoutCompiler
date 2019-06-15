@@ -1,22 +1,22 @@
 package layout.lexer;
 
-class StringStream {
+public class StringStream {
     private int position = 0;
     private String str;
 
-    StringStream(String s) {
+    public StringStream(String s) {
         str = s;
     }
 
-    char getChar() {
+    public char getChar() {
         return str.charAt(position);
     }
 
-    void next() {
+    public void next() {
         position++;
     }
 
-    boolean isEnd() {
+    public boolean isEnd() {
         return str.length() <= position;
     }
 }
