@@ -8,17 +8,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertThat;
 
-public class LayoutCompilerTest {
+public class CompilerTest {
     @Test
     public void execute() {
-        assertThat(new LayoutCompiler(), IsInstanceOf.instanceOf(LayoutCompiler.class));
+        assertThat(new Compiler(), IsInstanceOf.instanceOf(Compiler.class));
     }
 
     @Test
     public void compile_sample_test_tag_string() {
-        final LayoutCompiler layoutCompiler = new LayoutCompiler();
-        layoutCompiler.addTag("test", TestTag.class);
-        final Render render = layoutCompiler.compile("<test>aaaa</test>");
+        final Compiler compiler = new Compiler();
+        compiler.addTag("test", TestTag.class);
+        final Render render = compiler.compile("<test>aaaa</test>");
 
         assertThat(render, IsInstanceOf.instanceOf(BlockTag.class));
         assertThat(((BlockTag) render).getRenders().get(0), IsInstanceOf.instanceOf(TestTag.class));
@@ -27,9 +27,9 @@ public class LayoutCompilerTest {
 
     @Test
     public void compile_sample_test_tag() {
-        final LayoutCompiler layoutCompiler = new LayoutCompiler();
-        layoutCompiler.addTag("test", TestTag.class);
-        final Render render = layoutCompiler.compile("<test></test>");
+        final Compiler compiler = new Compiler();
+        compiler.addTag("test", TestTag.class);
+        final Render render = compiler.compile("<test></test>");
 
         assertThat(render, IsInstanceOf.instanceOf(BlockTag.class));
         assertThat(((BlockTag) render).getRenders().get(0), IsInstanceOf.instanceOf(TestTag.class));
@@ -37,9 +37,9 @@ public class LayoutCompilerTest {
 
     @Test
     public void compile_sample_test_tag2() {
-        final LayoutCompiler layoutCompiler = new LayoutCompiler();
-        layoutCompiler.addTag("test", TestTag.class);
-        final Render render = layoutCompiler.compile("<test><test></test></test>");
+        final Compiler compiler = new Compiler();
+        compiler.addTag("test", TestTag.class);
+        final Render render = compiler.compile("<test><test></test></test>");
 
         assertThat(render, IsInstanceOf.instanceOf(BlockTag.class));
 
@@ -50,9 +50,9 @@ public class LayoutCompilerTest {
 
     @Test
     public void compile_sample_test_tag3() {
-        final LayoutCompiler layoutCompiler = new LayoutCompiler();
-        layoutCompiler.addTag("test", TestTag.class);
-        final Render executer = layoutCompiler.compile("<test><test></test><test></test></test>");
+        final Compiler compiler = new Compiler();
+        compiler.addTag("test", TestTag.class);
+        final Render executer = compiler.compile("<test><test></test><test></test></test>");
 
         final TestTag testTag = (TestTag) ((BlockTag) executer).getRenders().get(0);
         assertThat(testTag, IsInstanceOf.instanceOf(TestTag.class));
@@ -62,9 +62,9 @@ public class LayoutCompilerTest {
 
     @Test
     public void compile_sample_test_tag4() {
-        final LayoutCompiler layoutCompiler = new LayoutCompiler();
-        layoutCompiler.addTag("test", TestTag.class);
-        final Render executer = layoutCompiler.compile("<test><test><test></test></test><test></test></test>");
+        final Compiler compiler = new Compiler();
+        compiler.addTag("test", TestTag.class);
+        final Render executer = compiler.compile("<test><test><test></test></test><test></test></test>");
 
         final TestTag testTag = (TestTag) ((BlockTag) executer).getRenders().get(0);
         assertThat(testTag, IsInstanceOf.instanceOf(TestTag.class));

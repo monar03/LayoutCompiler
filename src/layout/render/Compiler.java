@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
-public class LayoutCompiler {
+public class Compiler {
     private final Map<String, Class> classMap = new HashMap<>();
     private final Queue<Result> results = new ArrayDeque<>();
 
