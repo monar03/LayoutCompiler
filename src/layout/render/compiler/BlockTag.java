@@ -17,7 +17,7 @@ abstract public class BlockTag extends Render {
         return new ArrayList<>(executers);
     }
 
-    protected Map<String, String> getParams() {
+    public Map<String, String> getParams() {
         return new HashMap<>(params);
     }
 

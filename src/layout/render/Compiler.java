@@ -18,6 +18,16 @@ import java.util.Queue;
 public class Compiler {
     private final Map<String, Class> classMap = new HashMap<>();
     private final Queue<Result> results = new ArrayDeque<>();
+    private final Map<String, Map<String, String>> designMap;
+
+
+    public Compiler() {
+        this.designMap = new HashMap<>();
+    }
+
+    public Compiler(Map<String, Map<String, String>> design) {
+        this.designMap = new HashMap<>(design);
+    }
 
     void addTag(@NotNull String key, Class aClass) {
         classMap.put(key, aClass);
@@ -79,7 +89,11 @@ public class Compiler {
             throw new IllegalStateException("cannot executer");
         }
 
-        ((BlockTag) object).setParams(result.getParam());
+        final Map<String, String> param = result.getParam();
+        if (param.containsKey("class")) {
+            param.putAll(designMap.get(param.get("class")));
+        }
+        ((BlockTag) object).setParams(param);
 
         return compile((BlockTag) object);
     }

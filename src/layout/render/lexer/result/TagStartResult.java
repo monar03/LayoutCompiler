@@ -20,7 +20,8 @@ public class TagStartResult extends Result {
                 firstElementEnd = true;
             } else {
                 final String[] params = str.split("=");
-                this.params.put(params[0].trim(), params[1].trim());
+                //@XXX "のtrimをどうするか考える
+                this.params.put(params[0].trim(), params[1].trim().replace("\"", ""));
             }
         }
 

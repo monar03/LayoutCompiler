@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
-class Compiler {
+public class Compiler {
     private final Queue<Result> results = new ArrayDeque<>();
 
-    Map<String, Map<String, String>> compile(String s) {
+    public Map<String, Map<String, String>> compile(String s) {
         final Lexer lexer = new Lexer(s);
         results.addAll(lexer.analysis());
         return compile();
