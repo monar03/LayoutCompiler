@@ -19,12 +19,12 @@ public class Compiler {
     private final Map<String, Class> classMap = new HashMap<>();
     private final Queue<Result> results = new ArrayDeque<>();
 
-    public void addTag(@NotNull String key, Class aClass) {
+    void addTag(@NotNull String key, Class aClass) {
         classMap.put(key, aClass);
     }
 
     @NotNull
-    public Render compile(@NotNull String str) {
+    Render compile(@NotNull String str) {
         final Lexer lexer = new Lexer(str);
         results.addAll(lexer.analysis());
 
