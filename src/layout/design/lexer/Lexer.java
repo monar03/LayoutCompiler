@@ -98,9 +98,12 @@ public class Lexer {
                     break KEY;
                 }
                 case '\n':
-                case ';':
+                case ';': {
+                    throw new IllegalStateException("cannot input value");
+                }
                 case ' ': {
-                    throw new IllegalStateException("cannot input space");
+                    stringStream.next();
+                    break;
                 }
                 default: {
                     key.append(c);
@@ -115,9 +118,12 @@ public class Lexer {
             final char c = stringStream.getChar();
             switch (c) {
                 case ':':
-                case '\n':
-                case ' ': {
+                case '\n': {
                     throw new IllegalStateException("cannot input space");
+                }
+                case ' ': {
+                    stringStream.next();
+                    break;
                 }
                 case ';': {
                     stringStream.next();
@@ -126,6 +132,7 @@ public class Lexer {
                 default: {
                     value.append(c);
                     stringStream.next();
+                    break;
                 }
             }
         }
