@@ -11,14 +11,9 @@ public class Compiler {
         this.design = new layout.design.Compiler().compile(design);
     }
 
-    Render compiler(String layoutStr) {
+    Render compile(String layoutStr, Map<String, Class> classMap) {
         final layout.render.Compiler compiler = new layout.render.Compiler(design);
-        return new Render() {
-            @Override
-            public void render(Render render) {
-
-            }
-        };
-
+        compiler.addTagAll(classMap);
+        return compiler.compile(layoutStr);
     }
 }

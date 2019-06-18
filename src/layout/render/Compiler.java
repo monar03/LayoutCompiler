@@ -33,8 +33,12 @@ public class Compiler {
         classMap.put(key, aClass);
     }
 
+    public void addTagAll(@NotNull Map<String, Class> classMap) {
+        this.classMap.putAll(new HashMap<>(classMap));
+    }
+
     @NotNull
-    Render compile(@NotNull String str) {
+    public Render compile(@NotNull String str) {
         final Lexer lexer = new Lexer(str);
         results.addAll(lexer.analysis());
 
