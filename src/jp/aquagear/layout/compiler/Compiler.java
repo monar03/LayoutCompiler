@@ -11,7 +11,7 @@ public class Compiler {
         this.design = new jp.aquagear.layout.compiler.design.Compiler().compile(design);
     }
 
-    Render compile(String layoutStr, Map<String, Class> classMap) {
+    public Render compile(String layoutStr, Map<String, Class> classMap) {
         final jp.aquagear.layout.compiler.render.Compiler compiler = new jp.aquagear.layout.compiler.render.Compiler(design);
         compiler.addTagAll(classMap);
         return compiler.compile(layoutStr);
