@@ -25,6 +25,18 @@ public class CompilerTest {
 
     }
 
+    @Test
+    public void compiler1() {
+        final Compiler compiler = new Compiler(".test { padding:1dp;}\n .box { orientation : horizon;}");
+        final Map<String, Class> classMap = new HashMap<>();
+        classMap.put("test", TestRender.class);
+        final List<Render> render = compiler.compile("<test><test class=\"test\"></test></test>", classMap);
+
+        assertThat(render.get(0), IsInstanceOf.instanceOf(TestRender.class));
+        assertThat(render.get(0).getRenders().get(0), IsInstanceOf.instanceOf(TestRender.class));
+
+    }
+
     public static class TestRender extends BlockRender {
         public Object render() {
             return null;

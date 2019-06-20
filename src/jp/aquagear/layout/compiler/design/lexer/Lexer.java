@@ -17,6 +17,7 @@ public class Lexer {
         while (!stringStream.isEnd()) {
             switch (stringStream.getChar()) {
                 case ' ': {
+                    stringStream.next();
                     break;
                 }
                 case '.': {
