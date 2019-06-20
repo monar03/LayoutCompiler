@@ -1,7 +1,7 @@
 package jp.aquagear.layout.compiler.render;
 
 import com.sun.istack.internal.NotNull;
-import jp.aquagear.layout.compiler.render.compiler.BlockTag;
+import jp.aquagear.layout.compiler.render.compiler.BlockRender;
 import jp.aquagear.layout.compiler.render.compiler.Render;
 import jp.aquagear.layout.compiler.render.compiler.StringRender;
 import jp.aquagear.layout.compiler.render.lexer.Lexer;
@@ -35,7 +35,7 @@ public class Compiler {
     }
 
     @NotNull
-    public Render compile(@NotNull String str) {
+    public List<Render> compile(@NotNull String str) {
         final Lexer lexer = new Lexer(str);
         results.addAll(lexer.analysis());
 
@@ -43,48 +43,30 @@ public class Compiler {
     }
 
     @NotNull
-    private Render compile() {
-        return compile(new BlockTag() {
-            @Override
-            public Object render() {
-                final List<Object> objects = new ArrayList<>();
-                for (Render executer : getRenders()) {
-                    objects.add(executer.render());
-                }
-
-                return objects;
-            }
-        });
-    }
-
-    @NotNull
-    private Render compile(@NotNull BlockTag blockTag) {
+    private List<Render> compile() {
+        final List<Render> renders = new ArrayList<>();
         while (true) {
             final Result result = results.poll();
             if (result == null) {
                 break;
             }
 
-            if (result instanceof TagEndResult) {
-                if (blockTag.getClass() == classMap.get(((TagEndResult) result).name)) {
-                    break;
-                }
-            } else if (result instanceof TagStartResult) {
-                blockTag.addRender(getTagStartResult((TagStartResult) result));
+            if (result instanceof TagStartResult) {
+                renders.add(tagCompile((TagStartResult) result));
             } else if (result instanceof StringResult) {
                 // @FIXME テキストの処理をどうするか考える
-                blockTag.addRender(new StringRender(((StringResult) result).getText()));
+                renders.add(new StringRender(((StringResult) result).getText()));
             }
         }
 
-        return blockTag;
+        return renders;
     }
 
     @NotNull
-    private Render getTagStartResult(@NotNull TagStartResult result) {
+    private Render tagCompile(@NotNull TagStartResult tagStartResult) {
         final Object object;
         try {
-            object = classMap.get(result.getName()).newInstance();
+            object = classMap.get(tagStartResult.getName()).newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new IllegalStateException("cannot excuter");
         }
@@ -93,12 +75,30 @@ public class Compiler {
             throw new IllegalStateException("cannot executer");
         }
 
-        final Map<String, String> param = result.getParam();
+        final Map<String, String> param = tagStartResult.getParam();
         if (param.containsKey("class")) {
             param.putAll(designMap.get(param.get("class")));
         }
-        ((BlockTag) object).setParams(param);
+        ((BlockRender) object).setParams(param);
 
-        return compile((BlockTag) object);
+        while (true) {
+            final Result result = results.poll();
+            if (result == null) {
+                break;
+            }
+
+            if (result instanceof StringResult) {
+                // @FIXME テキストの処理をどうするか考える
+                ((BlockRender) object).addRender(new StringRender(((StringResult) result).getText()));
+            } else if (result instanceof TagEndResult) {
+                if (tagStartResult.getName().equals(((TagEndResult) result).getName())) {
+                    return (Render) object;
+                }
+            } else if (result instanceof TagStartResult) {
+                ((BlockRender) object).addRender(tagCompile((TagStartResult) result));
+            }
+        }
+
+        return (Render) object;
     }
 }
