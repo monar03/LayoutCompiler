@@ -26,7 +26,6 @@ public class CompilerTest {
     }
 
     public static class TestRender extends BlockRender {
-        @Override
         public Object render() {
             return null;
         }

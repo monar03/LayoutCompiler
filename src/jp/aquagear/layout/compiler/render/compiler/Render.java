@@ -13,6 +13,4 @@ abstract public class Render {
     public List<Render> getRenders() {
         return new ArrayList<>(executers);
     }
-
-    abstract public Object render();
 }

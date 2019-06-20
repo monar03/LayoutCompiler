@@ -8,7 +8,6 @@ public class StringRender extends Render {
         this.str = str;
     }
 
-    @Override
     public Object render() {
         return str;
     }

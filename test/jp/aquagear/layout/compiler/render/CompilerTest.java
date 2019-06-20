@@ -97,7 +97,6 @@ public class CompilerTest {
 }
 
 class TestRender extends BlockRender {
-    @Override
     public Object render() {
         return null;
     }
