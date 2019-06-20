@@ -27,8 +27,8 @@ public class CompilerTest {
 
     public static class TestTag extends BlockTag {
         @Override
-        public void render(Render render) {
-
+        public Object render() {
+            return null;
         }
     }
 }

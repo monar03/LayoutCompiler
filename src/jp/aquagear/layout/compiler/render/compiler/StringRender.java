@@ -9,7 +9,7 @@ public class StringRender extends Render {
     }
 
     @Override
-    public void render(Render render) {
-
+    public Object render() {
+        return str;
     }
 }

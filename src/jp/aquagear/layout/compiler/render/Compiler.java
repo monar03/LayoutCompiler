@@ -10,10 +10,7 @@ import jp.aquagear.layout.compiler.render.lexer.result.StringResult;
 import jp.aquagear.layout.compiler.render.lexer.result.TagEndResult;
 import jp.aquagear.layout.compiler.render.lexer.result.TagStartResult;
 
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class Compiler {
     private final Map<String, Class> classMap = new HashMap<>();
@@ -49,10 +46,13 @@ public class Compiler {
     private Render compile() {
         return compile(new BlockTag() {
             @Override
-            public void render(Render render) {
+            public Object render() {
+                final List<Object> objects = new ArrayList<>();
                 for (Render executer : getRenders()) {
-                    executer.render(this);
+                    objects.add(executer.render());
                 }
+
+                return objects;
             }
         });
     }

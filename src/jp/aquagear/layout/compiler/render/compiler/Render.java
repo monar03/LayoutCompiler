@@ -14,5 +14,5 @@ abstract public class Render {
         return new ArrayList<>(executers);
     }
 
-    abstract public void render(Render render);
+    abstract public Object render();
 }
