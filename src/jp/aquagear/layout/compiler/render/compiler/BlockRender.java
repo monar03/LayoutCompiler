@@ -1,16 +1,27 @@
 package jp.aquagear.layout.compiler.render.compiler;
 
+import jp.aquagear.layout.compiler.render.lexer.result.TagStartResult;
+
 import java.util.HashMap;
 import java.util.Map;
 
 abstract public class BlockRender extends Render {
-    protected final Map<java.lang.String, java.lang.String> params = new HashMap<>();
+    protected final Map<String, TagStartResult.Parameter> params = new HashMap<>();
+    protected final Map<String, String> styles = new HashMap<>();
 
-    public Map<String, String> getParams() {
+    public Map<String, TagStartResult.Parameter> getParams() {
         return new HashMap<>(params);
     }
 
-    public void setParams(Map<java.lang.String, java.lang.String> params) {
+    public void setParams(Map<java.lang.String, TagStartResult.Parameter> params) {
         this.params.putAll(params);
+    }
+
+    public Map<String, String> getStyles() {
+        return new HashMap<>(styles);
+    }
+
+    public void setStyles(Map<String, String> styles) {
+        this.styles.putAll(styles);
     }
 }

@@ -91,7 +91,7 @@ public class CompilerTest {
 
         final TestRender testTag1 = (TestRender) testTag.getRenders().get(0);
         assertThat(testTag1, IsInstanceOf.instanceOf(TestRender.class));
-        assertThat(testTag1.getParams().get("padding"), Is.is("1px"));
+        assertThat(testTag1.getStyles().get("padding"), Is.is("1px"));
 
     }
 }

@@ -3,6 +3,7 @@ package jp.aquagear.layout.compiler.render.lexer;
 import jp.aquagear.layout.compiler.render.lexer.result.StringResult;
 import jp.aquagear.layout.compiler.render.lexer.result.TagEndResult;
 import jp.aquagear.layout.compiler.render.lexer.result.TagStartResult;
+import jp.aquagear.layout.compiler.render.lexer.result.Type;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
@@ -45,7 +46,17 @@ public class LexerTest {
         final Lexer lexer = new Lexer("<test a=param>");
         assertThat(lexer.analysis().get(0), IsInstanceOf.instanceOf(TagStartResult.class));
         assertThat(((TagStartResult) lexer.analysis().get(0)).getName(), Is.is("test"));
-        assertThat(((TagStartResult) lexer.analysis().get(0)).getParam().get("a"), Is.is("param"));
+        assertThat(((TagStartResult) lexer.analysis().get(0)).getParam().get("a").value, Is.is("param"));
+        assertThat(((TagStartResult) lexer.analysis().get(0)).getParam().get("a").type, Is.is(Type.CONST));
+    }
+
+    @Test
+    public void analysis_変数属性情報付きタグスタートのパース() {
+        final Lexer lexer = new Lexer("<test a={{param}}>");
+        assertThat(lexer.analysis().get(0), IsInstanceOf.instanceOf(TagStartResult.class));
+        assertThat(((TagStartResult) lexer.analysis().get(0)).getName(), Is.is("test"));
+        assertThat(((TagStartResult) lexer.analysis().get(0)).getParam().get("a").value, Is.is("param"));
+        assertThat(((TagStartResult) lexer.analysis().get(0)).getParam().get("a").type, Is.is(Type.VARIABLE));
     }
 
     @Test

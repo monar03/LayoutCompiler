@@ -75,9 +75,9 @@ public class Compiler {
             throw new IllegalStateException("cannot executer");
         }
 
-        final Map<String, String> param = tagStartResult.getParam();
+        final Map<String, TagStartResult.Parameter> param = tagStartResult.getParam();
         if (param.containsKey("class")) {
-            param.putAll(designMap.get(param.get("class")));
+            ((BlockRender) object).setStyles(designMap.get(param.get("class").value));
         }
         ((BlockRender) object).setParams(param);
 
