@@ -1,13 +1,13 @@
 package jp.aquagear.layout.compiler.render.lexer.result;
 
 public class StringResult extends Result {
-    private final String text;
+    private final StringVariable.Parameter text;
 
     public StringResult(String text) {
-        this.text = text.trim();
+        this.text = StringVariable.variableParse(text.trim());
     }
 
-    public String getText() {
+    public StringVariable.Parameter getText() {
         return text;
     }
 

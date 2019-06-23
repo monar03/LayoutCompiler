@@ -1,14 +1,16 @@
 package jp.aquagear.layout.compiler.render.compiler;
 
+import jp.aquagear.layout.compiler.render.lexer.result.StringVariable;
+
 // @XXX 文字列の取り扱いどうしようかな。。
 public class StringRender extends Render {
-    protected String str;
+    protected StringVariable.Parameter parameter;
 
-    public StringRender(String str) {
-        this.str = str;
+    public StringRender(StringVariable.Parameter parameter) {
+        this.parameter = parameter;
     }
 
     public Object render() {
-        return str;
+        return parameter;
     }
 }

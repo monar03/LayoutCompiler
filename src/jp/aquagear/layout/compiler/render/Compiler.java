@@ -5,10 +5,7 @@ import jp.aquagear.layout.compiler.render.compiler.BlockRender;
 import jp.aquagear.layout.compiler.render.compiler.Render;
 import jp.aquagear.layout.compiler.render.compiler.StringRender;
 import jp.aquagear.layout.compiler.render.lexer.Lexer;
-import jp.aquagear.layout.compiler.render.lexer.result.Result;
-import jp.aquagear.layout.compiler.render.lexer.result.StringResult;
-import jp.aquagear.layout.compiler.render.lexer.result.TagEndResult;
-import jp.aquagear.layout.compiler.render.lexer.result.TagStartResult;
+import jp.aquagear.layout.compiler.render.lexer.result.*;
 
 import java.util.*;
 
@@ -75,7 +72,7 @@ public class Compiler {
             throw new IllegalStateException("cannot executer");
         }
 
-        final Map<String, TagStartResult.Parameter> param = tagStartResult.getParam();
+        final Map<String, StringVariable.Parameter> param = tagStartResult.getParam();
         if (param.containsKey("class")) {
             ((BlockRender) object).setStyles(designMap.get(param.get("class").value));
         }

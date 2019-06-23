@@ -18,14 +18,14 @@ public class LexerTest {
     public void analysis_文字列検出() {
         final Lexer lexer = new Lexer("test");
         assertThat(lexer.analysis().get(0), IsInstanceOf.instanceOf(StringResult.class));
-        assertThat(((StringResult) lexer.analysis().get(0)).getText(), Is.is("test"));
+        assertThat(((StringResult) lexer.analysis().get(0)).getText().value, Is.is("test"));
     }
 
     @Test
     public void analysis_文字列検出_空白を無視() {
         final Lexer lexer = new Lexer("te st");
         assertThat(lexer.analysis().get(0), IsInstanceOf.instanceOf(StringResult.class));
-        assertThat(((StringResult) lexer.analysis().get(0)).getText(), Is.is("test"));
+        assertThat(((StringResult) lexer.analysis().get(0)).getText().value, Is.is("test"));
     }
 
     @Test
@@ -93,7 +93,7 @@ public class LexerTest {
         assertThat(lexer.analysis().get(0), IsInstanceOf.instanceOf(TagStartResult.class));
         assertThat(((TagStartResult) lexer.analysis().get(0)).getName(), Is.is("test"));
         assertThat(lexer.analysis().get(1), IsInstanceOf.instanceOf(StringResult.class));
-        assertThat(((StringResult) lexer.analysis().get(1)).getText(), Is.is("test"));
+        assertThat(((StringResult) lexer.analysis().get(1)).getText().value, Is.is("test"));
         assertThat(lexer.analysis().get(2), IsInstanceOf.instanceOf(TagEndResult.class));
         assertThat(((TagEndResult) lexer.analysis().get(2)).getName(), Is.is("test"));
     }
