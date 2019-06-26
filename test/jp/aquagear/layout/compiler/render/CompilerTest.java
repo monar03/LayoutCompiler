@@ -3,6 +3,7 @@ package jp.aquagear.layout.compiler.render;
 import jp.aquagear.layout.compiler.render.compiler.BlockRender;
 import jp.aquagear.layout.compiler.render.compiler.Render;
 import jp.aquagear.layout.compiler.render.compiler.StringRender;
+import jp.aquagear.layout.compiler.render.lexer.result.Type;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
@@ -76,6 +77,23 @@ public class CompilerTest {
     }
 
     @Test
+    public void compile_sample_test_tag5() {
+        final Compiler compiler = new Compiler();
+        compiler.addTag("test", TestRender.class);
+        final List<Render> renders = compiler.compile("<test for=\"{{test}}\"><test><test></test></test><test></test></test>");
+
+        final TestRender testTag = (TestRender) renders.get(0);
+        assertThat(testTag, IsInstanceOf.instanceOf(TestRender.class));
+        assertThat(testTag.getRenders().get(0), IsInstanceOf.instanceOf(TestRender.class));
+        assertThat(testTag.getMode(), Is.is(BlockRender.Mode.TEMPLATE));
+        assertThat(testTag.getParams().get("for").value, Is.is("test"));
+        assertThat(testTag.getParams().get("for").type, Is.is(Type.VARIABLE));
+        assertThat(testTag.getRenders().get(0).getRenders().get(0), IsInstanceOf.instanceOf(TestRender.class));
+        assertThat(((BlockRender) testTag.getRenders().get(0).getRenders().get(0)).getMode(), Is.is(BlockRender.Mode.NORMAL));
+        assertThat(testTag.getRenders().get(1), IsInstanceOf.instanceOf(TestRender.class));
+    }
+
+    @Test
     public void compile_sample_test_design_class1() {
         final Map<String, Map<String, String>> map = new HashMap<>();
         final Map<String, String> cls = new HashMap<>();
@@ -92,7 +110,6 @@ public class CompilerTest {
         final TestRender testTag1 = (TestRender) testTag.getRenders().get(0);
         assertThat(testTag1, IsInstanceOf.instanceOf(TestRender.class));
         assertThat(testTag1.getStyles().get("padding"), Is.is("1px"));
-
     }
 }
 
