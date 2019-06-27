@@ -15,10 +15,12 @@ public class CompilerTest {
 
     @Test
     public void compiler() {
-        final Compiler compiler = new Compiler(".test{ padding : 1px; \n margin:2px; }");
         final Map<String, Class> classMap = new HashMap<>();
         classMap.put("test", TestRender.class);
-        final List<Render> render = compiler.compile("<test><test class=\"test\"></test></test>", classMap);
+        final Compiler compiler = new Compiler(classMap);
+        final List<Render> render = compiler.compile(
+                "<test><test class=\"test\"></test></test>",
+                ".test{ padding : 1px; \n margin:2px; }");
 
         assertThat(render.get(0), IsInstanceOf.instanceOf(TestRender.class));
         assertThat(render.get(0).getRenders().get(0), IsInstanceOf.instanceOf(TestRender.class));
@@ -27,10 +29,12 @@ public class CompilerTest {
 
     @Test
     public void compiler1() {
-        final Compiler compiler = new Compiler(".test { padding:1dp;}\n .box { orientation : horizon;}");
         final Map<String, Class> classMap = new HashMap<>();
         classMap.put("test", TestRender.class);
-        final List<Render> render = compiler.compile("<test><test class=\"test\"></test></test>", classMap);
+        final Compiler compiler = new Compiler(classMap);
+        final List<Render> render = compiler.compile(
+                "<test><test class=\"test\"></test></test>",
+                ".test { padding:1dp;}\n .box { orientation : horizon;}");
 
         assertThat(render.get(0), IsInstanceOf.instanceOf(TestRender.class));
         assertThat(render.get(0).getRenders().get(0), IsInstanceOf.instanceOf(TestRender.class));
