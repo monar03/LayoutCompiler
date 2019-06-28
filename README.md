@@ -58,6 +58,7 @@ XMLとJSからAndroidで画面を表示できる様にする。
 ```
 
 # 構文解析器を作る
+字句解析結果を使って解析ツリーを作る
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/449882/1fa16568-0901-db00-43ae-d8e4c36475d5.png)
 
 # 実行
