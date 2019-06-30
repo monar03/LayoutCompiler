@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -5,29 +6,37 @@
 
     <groupId>jp.aquagear.layout.compiler</groupId>
     <artifactId>LayoutCompiler</artifactId>
-    <!-- バージョン番号 -->
-    <version>1.0</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
-    <name>LayoutCompiler</name>
+    <name>monar03</name>
     <url>https://github.com/monar03/LayoutCompiler</url>
 
     <properties>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- 認証情報読み込み -->
         <github.global.server>github</github.global.server>
     </properties>
 
     <distributionManagement>
         <repository>
             <id>internal.repos</id>
-            <name>LayoutCompiler</name>
+            <name>Temporary Staging Repository</name>
             <url>file://${project.build.directory}/gh-pages</url>
         </repository>
     </distributionManagement>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
@@ -40,13 +49,16 @@
                     <outputDirectory>${project.build.directory}/gh-pages</outputDirectory>
                     <!-- リモートブランチ名 -->
                     <branch>refs/heads/gh-pages</branch>
-                    <includes><include>**/*</include></includes>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
                     <!-- Github リポジトリ名 -->
-                    <repositoryName>${repositoryName}</repositoryName>
+                    <repositoryName>mvn-repo</repositoryName>
                     <!-- Github リポジトリユーザー名 -->
-                    <repositoryOwner>${ownerName}</repositoryOwner>
+                    <repositoryOwner>monar03</repositoryOwner>
                 </configuration>
                 <executions>
+                    <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
                     <execution>
                         <goals>
                             <goal>site</goal>
@@ -55,6 +67,24 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.1</version>
+                <configuration>
+                    <altDeploymentRepository>internal.repos::default::file://${project.build.directory}/gh-pages
+                    </altDeploymentRepository>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

@@ -1,6 +1,5 @@
 package jp.aquagear.layout.compiler.render;
 
-import com.sun.istack.internal.NotNull;
 import jp.aquagear.layout.compiler.render.compiler.BlockRender;
 import jp.aquagear.layout.compiler.render.compiler.Render;
 import jp.aquagear.layout.compiler.render.compiler.StringRender;
@@ -23,23 +22,21 @@ public class Compiler {
         this.designMap = new HashMap<>(design);
     }
 
-    void addTag(@NotNull String key, Class aClass) {
+    void addTag(String key, Class aClass) {
         classMap.put(key, aClass);
     }
 
-    public void addTagAll(@NotNull Map<String, Class> classMap) {
+    public void addTagAll(Map<String, Class> classMap) {
         this.classMap.putAll(new HashMap<>(classMap));
     }
 
-    @NotNull
-    public List<Render> compile(@NotNull String str) {
+    public List<Render> compile(String str) {
         final Lexer lexer = new Lexer(str);
         results.addAll(lexer.analysis());
 
         return compile();
     }
 
-    @NotNull
     private List<Render> compile() {
         final List<Render> renders = new ArrayList<>();
         while (true) {
@@ -59,8 +56,7 @@ public class Compiler {
         return renders;
     }
 
-    @NotNull
-    private Render tagCompile(@NotNull TagStartResult tagStartResult) {
+    private Render tagCompile(TagStartResult tagStartResult) {
         final Object object;
         try {
             object = classMap.get(tagStartResult.getName()).newInstance();
