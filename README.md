@@ -1,3 +1,29 @@
+# 使い方
+gradleの設定
+
+```
+repositories {
+    maven { url "https://monar03.github.io/mvn-repo"}
+}
+
+dependencies {
+    implementation "jp.aquagear.layout.compiler:LayoutCompiler:1.1"
+}
+```
+
+呼び出し方
+
+```
+
+Compiler compiler = Compiler(<クラスマップ>);
+String designStr = ".test {
+    padding:10px;
+}";
+
+String layoutStr = "<view><text class="test">aaa</text><view>";
+List<Render> renders = compiler.compile("レイアウト文字列", "デザイン");
+```
+
 リリースしなくてもレイアウトが試せる様な仕組みが欲しくなったので、AndroidでXMLからレイアウトを作るためのコンパイラが欲しいと思ったので作ってみる。
 コンパイラを作ってみた
 
