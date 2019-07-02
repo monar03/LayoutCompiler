@@ -1,3 +1,20 @@
+リリースしなくてもレイアウトが試せる様な仕組みが欲しくなったので、AndroidでXMLからレイアウトを作るためのコンパイラが欲しいと思ったので作ってみる。
+コンパイラを作ってみた
+
+XMLとJSからAndroidで画面を表示できる様にする。
+
+```
+入力するXML
+<view>
+    <text>
+        {{test1}}
+    </text>
+    <text>
+        {{test2}}
+    </text>
+</view>
+```
+
 # 使い方
 gradleの設定
 
@@ -22,23 +39,6 @@ String designStr = ".test {
 
 String layoutStr = "<view><text class="test">aaa</text><view>";
 List<Render> renders = compiler.compile("レイアウト文字列", "デザイン");
-```
-
-リリースしなくてもレイアウトが試せる様な仕組みが欲しくなったので、AndroidでXMLからレイアウトを作るためのコンパイラが欲しいと思ったので作ってみる。
-コンパイラを作ってみた
-
-XMLとJSからAndroidで画面を表示できる様にする。
-
-```
-入力するXML
-<view>
-    <text>
-        {{test1}}
-    </text>
-    <text>
-        {{test2}}
-    </text>
-</view>
 ```
 
 # Compilerの処理
