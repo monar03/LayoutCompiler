@@ -1,20 +1,6 @@
 リリースしなくてもレイアウトが試せる様な仕組みが欲しくなったので、AndroidでXMLからレイアウトを作るためのコンパイラが欲しいと思ったので作ってみる。
 コンパイラを作ってみた
 
-XMLとJSからAndroidで画面を表示できる様にする。
-
-```
-入力するXML
-<view>
-    <text>
-        {{test1}}
-    </text>
-    <text>
-        {{test2}}
-    </text>
-</view>
-```
-
 # 使い方
 gradleの設定
 
@@ -46,6 +32,20 @@ List<Render> renders = compiler.compile("レイアウト文字列", "デザイ�
 * 字句解析器を作る（Lexer）
 * 構文解析器を作る
 * 構文解析器を実行する
+
+XMLとJSからAndroidで画面を表示できる様にする。
+
+```
+入力するXML
+<view>
+    <text>
+        {{test1}}
+    </text>
+    <text>
+        {{test2}}
+    </text>
+</view>
+```
 
 # 字句解析器
 コードは[こちら](https://github.com/monar03/LayoutCompiler/blob/master/src/jp/aquagear/layout/compiler/render/lexer/Lexer.java)
