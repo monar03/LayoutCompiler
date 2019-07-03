@@ -117,27 +117,50 @@ public class Lexer {
         VALUE:
         while (!stringStream.isEnd()) {
             final char c = stringStream.getChar();
-            switch (c) {
-                case ':':
-                case '\n': {
-                    throw new IllegalStateException("cannot input space");
-                }
-                case ' ': {
-                    stringStream.next();
-                    break;
-                }
-                case ';': {
-                    stringStream.next();
-                    break VALUE;
-                }
-                default: {
-                    value.append(c);
-                    stringStream.next();
-                    break;
+            if (value.length() <= 0 && c == '"') {
+                stringStream.next();
+                value.append(parseString());
+            } else {
+                switch (c) {
+                    case ':':
+                    case '\n': {
+                        throw new IllegalStateException("cannot input space");
+                    }
+                    case ' ': {
+                        stringStream.next();
+                        break;
+                    }
+                    case ';': {
+                        stringStream.next();
+                        break VALUE;
+                    }
+                    default: {
+                        value.append(c);
+                        stringStream.next();
+                        break;
+                    }
                 }
             }
         }
 
         results.add(new DesignParamResult(key.toString(), value.toString()));
+    }
+
+    private String parseString() {
+        final StringBuilder str = new StringBuilder();
+        while (!stringStream.isEnd()) {
+            final char c = stringStream.getChar();
+            if (c == '"') {
+                stringStream.next();
+                return str.toString();
+            } else if (c==';') {
+                return str.toString();
+            } else {
+                stringStream.next();
+                str.append(c);
+            }
+        }
+
+        return str.toString();
     }
 }

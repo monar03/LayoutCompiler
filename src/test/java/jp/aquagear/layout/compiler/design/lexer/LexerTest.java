@@ -64,4 +64,12 @@ public class LexerTest {
         assertThat(results.get(4), IsInstanceOf.instanceOf(DesignEndResult.class));
     }
 
+    @Test
+    public void analysis_クラスの定義_パラメータ3() {
+        final List<Result> results = new Lexer(".small-p{\n url:\"http://test.com\"; \n}").analysis();
+        assertThat(results.get(0), IsInstanceOf.instanceOf(ClassResult.class));
+        assertThat(results.get(1), IsInstanceOf.instanceOf(DesignStartResult.class));
+        assertThat(results.get(2), IsInstanceOf.instanceOf(DesignParamResult.class));
+        assertThat(((DesignParamResult) results.get(2)).getValue(), Is.is("http://test.com"));
+    }
 }
