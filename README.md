@@ -1,6 +1,38 @@
 リリースしなくてもレイアウトが試せる様な仕組みが欲しくなったので、AndroidでXMLからレイアウトを作るためのコンパイラが欲しいと思ったので作ってみる。
 コンパイラを作ってみた
 
+# 使い方
+gradleの設定
+
+```
+repositories {
+    maven { url "https://monar03.github.io/mvn-repo"}
+}
+
+dependencies {
+    implementation "jp.aquagear.layout.compiler:LayoutCompiler:1.1"
+}
+```
+
+呼び出し方
+
+```
+
+Compiler compiler = Compiler(<クラスマップ>);
+String designStr = ".test {
+    padding:10px;
+}";
+
+String layoutStr = "<view><text class="test">aaa</text><view>";
+List<Render> renders = compiler.compile("レイアウト文字列", "デザイン");
+```
+
+# Compilerの処理
+作るコンパイラの処理は、この３つ
+* 字句解析器を作る（Lexer）
+* 構文解析器を作る
+* 構文解析器を実行する
+
 XMLとJSからAndroidで画面を表示できる様にする。
 
 ```
@@ -14,12 +46,6 @@ XMLとJSからAndroidで画面を表示できる様にする。
     </text>
 </view>
 ```
-
-# Compilerの処理
-作るコンパイラの処理は、この３つ
-* 字句解析器を作る（Lexer）
-* 構文解析器を作る
-* 構文解析器を実行する
 
 # 字句解析器
 コードは[こちら](https://github.com/monar03/LayoutCompiler/blob/master/src/jp/aquagear/layout/compiler/render/lexer/Lexer.java)
