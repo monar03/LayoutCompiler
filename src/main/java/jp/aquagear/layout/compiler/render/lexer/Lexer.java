@@ -103,6 +103,8 @@ public class Lexer {
                     } else {
                         stringBuilder.append(tc);
                     }
+
+                    break;
                 }
                 case '>': {
                     stringStream.next();
@@ -112,6 +114,8 @@ public class Lexer {
                 default: {
                     stringStream.next();
                     stringBuilder.append(tc);
+
+                    break;
                 }
             }
         }

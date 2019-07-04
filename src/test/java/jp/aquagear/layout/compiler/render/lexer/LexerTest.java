@@ -51,6 +51,15 @@ public class LexerTest {
     }
 
     @Test
+    public void analysis_属性情報付きタグスタートのパース_url() {
+        final Lexer lexer = new Lexer("<test src=\"https://avatars1.githubusercontent.com/u/2632317?s=460&v=4\" />");
+        assertThat(lexer.analysis().get(0), IsInstanceOf.instanceOf(TagStartResult.class));
+        assertThat(((TagStartResult) lexer.analysis().get(0)).getName(), Is.is("test"));
+        assertThat(((TagStartResult) lexer.analysis().get(0)).getParam().get("src").type, Is.is(Type.CONST));
+        assertThat(((TagStartResult) lexer.analysis().get(0)).getParam().get("src").value, Is.is("https://avatars1.githubusercontent.com/u/2632317?s=460&v=4"));
+    }
+
+    @Test
     public void analysis_変数属性情報付きタグスタートのパース() {
         final Lexer lexer = new Lexer("<test a={{param}}>");
         assertThat(lexer.analysis().get(0), IsInstanceOf.instanceOf(TagStartResult.class));
