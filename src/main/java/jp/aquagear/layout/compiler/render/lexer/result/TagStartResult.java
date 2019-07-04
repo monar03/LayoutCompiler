@@ -19,7 +19,7 @@ public class TagStartResult extends Result {
                 name = str;
                 firstElementEnd = true;
             } else {
-                final String[] params = str.split("=");
+                final String[] params = str.split("=", 2);
                 //@XXX "のtrimをどうするか考える
                 this.params.put(params[0].trim(), StringVariable.variableParse(params[1].trim().replace("\"", "")));
             }

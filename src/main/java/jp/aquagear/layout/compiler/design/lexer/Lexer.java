@@ -16,17 +16,14 @@ public class Lexer {
     public List<Result> analysis() {
         while (!stringStream.isEnd()) {
             switch (stringStream.getChar()) {
-                case ' ': {
+                case ' ':
+                case '}': {
                     stringStream.next();
                     break;
                 }
                 case '.': {
                     stringStream.next();
                     classAnalysis();
-                    break;
-                }
-                case '}': {
-                    stringStream.next();
                     break;
                 }
                 default:
