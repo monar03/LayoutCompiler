@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation "jp.aquagear.layout.compiler:LayoutCompiler:1.1"
+    implementation "jp.aquabox.layout.compiler:LayoutCompiler:1.1"
 }
 ```
 
