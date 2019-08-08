@@ -9,9 +9,9 @@ import jp.aquabox.layout.compiler.render.lexer.result.*;
 import java.util.*;
 
 public class Compiler {
-    private final Map<String, Class> classMap = new HashMap<>();
     private final Queue<Result> results = new ArrayDeque<>();
     private final Map<String, Map<String, String>> designMap;
+    private RenderCreator renderCreator;
 
 
     public Compiler() {
@@ -22,12 +22,8 @@ public class Compiler {
         this.designMap = new HashMap<>(design);
     }
 
-    void addTag(String key, Class aClass) {
-        classMap.put(key, aClass);
-    }
-
-    public void addTagAll(Map<String, Class> classMap) {
-        this.classMap.putAll(new HashMap<>(classMap));
+    public void setCreator(RenderCreator renderCreator) {
+        this.renderCreator = renderCreator;
     }
 
     public List<Render> compile(String str) {
@@ -57,22 +53,13 @@ public class Compiler {
     }
 
     private Render tagCompile(TagStartResult tagStartResult) {
-        final Object object;
-        try {
-            object = classMap.get(tagStartResult.getName()).newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new IllegalStateException("cannot excuter");
-        }
-
-        if (!(object instanceof Render)) {
-            throw new IllegalStateException("cannot executer");
-        }
+        final Render render = renderCreator.create(tagStartResult.getName());
 
         final Map<String, StringVariable.Parameter> param = tagStartResult.getParam();
         if (param.containsKey("class")) {
-            ((BlockRender) object).setStyles(designMap.get(param.get("class").value));
+            ((BlockRender) render).setStyles(designMap.get(param.get("class").value));
         }
-        ((BlockRender) object).setParams(param);
+        ((BlockRender) render).setParams(param);
 
         while (true) {
             final Result result = results.poll();
@@ -82,16 +69,16 @@ public class Compiler {
 
             if (result instanceof StringResult) {
                 // @FIXME テキストの処理をどうするか考える
-                ((BlockRender) object).addRender(new StringRender(((StringResult) result).getText()));
+                render.addRender(new StringRender(((StringResult) result).getText()));
             } else if (result instanceof TagEndResult) {
                 if (tagStartResult.getName().equals(((TagEndResult) result).getName())) {
-                    return (Render) object;
+                    return render;
                 }
             } else if (result instanceof TagStartResult) {
-                ((BlockRender) object).addRender(tagCompile((TagStartResult) result));
+                render.addRender(tagCompile((TagStartResult) result));
             }
         }
 
-        return (Render) object;
+        return render;
     }
 }

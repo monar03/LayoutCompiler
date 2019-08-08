@@ -1,23 +1,26 @@
 package jp.aquabox.layout.compiler;
 
+import jp.aquabox.layout.compiler.render.RenderCreator;
 import jp.aquabox.layout.compiler.render.compiler.BlockRender;
 import jp.aquabox.layout.compiler.render.compiler.Render;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertThat;
 
 public class CompilerTest {
+    private RenderCreator renderCreator = new RenderCreator() {
+        @Override
+        public Render create(String name) {
+            return new TestRender();
+        }
+    };
 
     @Test
     public void compiler() {
-        final Map<String, Class> classMap = new HashMap<>();
-        classMap.put("test", TestRender.class);
-        final Compiler compiler = new Compiler(classMap);
+        final Compiler compiler = new Compiler(renderCreator);
         final List<Render> render = compiler.compile(
                 "<test><test class=\"test\"></test></test>",
                 ".test{ padding : 1px; \n margin:2px; }");
@@ -29,9 +32,7 @@ public class CompilerTest {
 
     @Test
     public void compiler1() {
-        final Map<String, Class> classMap = new HashMap<>();
-        classMap.put("test", TestRender.class);
-        final Compiler compiler = new Compiler(classMap);
+        final Compiler compiler = new Compiler(renderCreator);
         final List<Render> render = compiler.compile(
                 "<test><test class=\"test\"></test></test>",
                 ".test { padding:1dp;}\n .box { orientation : horizon;}");

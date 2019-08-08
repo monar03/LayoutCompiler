@@ -1,9 +1,9 @@
 package jp.aquabox.layout.compiler.render;
 
+import jp.aquabox.layout.compiler.render.compiler.BlockRender;
 import jp.aquabox.layout.compiler.render.compiler.Render;
 import jp.aquabox.layout.compiler.render.compiler.StringRender;
 import jp.aquabox.layout.compiler.render.lexer.result.Type;
-import jp.aquabox.layout.compiler.render.compiler.BlockRender;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
@@ -15,6 +15,13 @@ import java.util.Map;
 import static org.junit.Assert.assertThat;
 
 public class CompilerTest {
+    private RenderCreator renderCreator = new RenderCreator() {
+        @Override
+        public Render create(String name) {
+            return new TestRender();
+        }
+    };
+
     @Test
     public void execute() {
         assertThat(new Compiler(), IsInstanceOf.instanceOf(Compiler.class));
@@ -23,7 +30,7 @@ public class CompilerTest {
     @Test
     public void compile_sample_test_tag_string() {
         final Compiler compiler = new Compiler();
-        compiler.addTag("test", TestRender.class);
+        compiler.setCreator(renderCreator);
         final List<Render> renders = compiler.compile("<test>aaaa</test>");
 
         assertThat(renders.get(0), IsInstanceOf.instanceOf(TestRender.class));
@@ -33,7 +40,7 @@ public class CompilerTest {
     @Test
     public void compile_sample_test_tag() {
         final Compiler compiler = new Compiler();
-        compiler.addTag("test", TestRender.class);
+        compiler.setCreator(renderCreator);
         final List<Render> renders = compiler.compile("<test></test>");
 
         assertThat(renders.get(0), IsInstanceOf.instanceOf(TestRender.class));
@@ -42,7 +49,7 @@ public class CompilerTest {
     @Test
     public void compile_sample_test_tag2() {
         final Compiler compiler = new Compiler();
-        compiler.addTag("test", TestRender.class);
+        compiler.setCreator(renderCreator);
         final List<Render> renders = compiler.compile("<test><test></test></test>");
 
 
@@ -54,7 +61,7 @@ public class CompilerTest {
     @Test
     public void compile_sample_test_tag3() {
         final Compiler compiler = new Compiler();
-        compiler.addTag("test", TestRender.class);
+        compiler.setCreator(renderCreator);
         final List<Render> renders = compiler.compile("<test><test></test><test></test></test>");
 
         final TestRender testTag = (TestRender) renders.get(0);
@@ -66,7 +73,7 @@ public class CompilerTest {
     @Test
     public void compile_sample_test_tag4() {
         final Compiler compiler = new Compiler();
-        compiler.addTag("test", TestRender.class);
+        compiler.setCreator(renderCreator);
         final List<Render> renders = compiler.compile("<test><test><test></test></test><test></test></test>");
 
         final TestRender testTag = (TestRender) renders.get(0);
@@ -79,7 +86,7 @@ public class CompilerTest {
     @Test
     public void compile_sample_test_tag5() {
         final Compiler compiler = new Compiler();
-        compiler.addTag("test", TestRender.class);
+        compiler.setCreator(renderCreator);
         final List<Render> renders = compiler.compile("<test for=\"{{test}}\"><test><test></test></test><test></test></test>");
 
         final TestRender testTag = (TestRender) renders.get(0);
@@ -101,7 +108,7 @@ public class CompilerTest {
         map.put("test", cls);
 
         final Compiler compiler = new Compiler(map);
-        compiler.addTag("test", TestRender.class);
+        compiler.setCreator(renderCreator);
         final List<Render> renders = compiler.compile("<test><test class=\"test\"></test></test>");
 
         final TestRender testTag = (TestRender) renders.get(0);
